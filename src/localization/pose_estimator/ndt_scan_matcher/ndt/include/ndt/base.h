@@ -55,6 +55,8 @@ public:
   virtual Eigen::Matrix<double, 6, 6> getHessian() const = 0;
 
   virtual boost::shared_ptr<pcl::search::KdTree<PointTarget>> getSearchMethodTarget() const = 0;
+  virtual void dumpConfigurations() const {};
+  virtual void dumpAlignInfo() const {};
 };
 
 #include "ndt/impl/base.hpp"

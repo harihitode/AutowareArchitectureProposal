@@ -49,6 +49,7 @@
 namespace ndt_omp
 {
 enum NeighborSearchMethod { KDTREE, DIRECT26, DIRECT7, DIRECT1 };
+std::string NeighborSearchMethodToString(NeighborSearchMethod method);
 
 /** \brief A 3D Normal Distribution Transform registration implementation for point cloud data.
  * \note For more information please see
@@ -445,6 +446,8 @@ protected:
 
 public:
   NeighborSearchMethod search_method;
+  void dumpConfigurations() const;
+  void dumpAlignInfo() const;
 
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };

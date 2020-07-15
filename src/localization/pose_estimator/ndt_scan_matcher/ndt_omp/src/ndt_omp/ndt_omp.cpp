@@ -18,3 +18,19 @@
 
 template class ndt_omp::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ>;
 template class ndt_omp::NormalDistributionsTransform<pcl::PointXYZI, pcl::PointXYZI>;
+
+std::string
+ndt_omp::NeighborSearchMethodToString(ndt_omp::NeighborSearchMethod method) {
+  switch (method) {
+  case ndt_omp::KDTREE:
+    return "KDTREE";
+  case ndt_omp::DIRECT26:
+    return "DIRECT26";
+  case ndt_omp::DIRECT7:
+    return "DIRECT7";
+  case ndt_omp::DIRECT1:
+    return "DIRECT1";
+  default:
+    return "unknown";
+  }
+}

@@ -64,6 +64,14 @@ public:
   int getNumThreads() const;
   ndt_omp::NeighborSearchMethod getNeighborhoodSearchMethod() const;
 
+  void dumpConfigurations() const override {
+    ndt_ptr_->dumpConfigurations();
+  }
+
+  void dumpAlignInfo() const override {
+    ndt_ptr_->dumpAlignInfo();
+  }
+
 private:
   boost::shared_ptr<ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>> ndt_ptr_;
 };

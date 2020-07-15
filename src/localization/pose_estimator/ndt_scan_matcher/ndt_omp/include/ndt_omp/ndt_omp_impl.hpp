@@ -1,4 +1,5 @@
 #include "ndt_omp.h"
+#include <ros/ros.h>
 /*
  * Software License Agreement (BSD License)
  *
@@ -93,6 +94,20 @@ ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::NormalDistribut
 
   search_method = DIRECT7;
   num_threads_ = omp_get_max_threads();
+}
+
+template <typename PointSource, typename PointTarget>
+void ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::dumpConfigurations() const {
+  ROS_INFO(">>> NDT_OMP Configurations");
+  ROS_INFO("openmp num threads: %d", num_threads_);
+  ROS_INFO("neighbor search method: %s", NeighborSearchMethodToString(search_method).c_str());
+  ROS_INFO("<<<");
+}
+
+template <typename PointSource, typename PointTarget>
+void ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::dumpAlignInfo() const {
+  ROS_INFO(">>> Align (computeTransFormation) Info");
+  ROS_INFO("<<<");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
