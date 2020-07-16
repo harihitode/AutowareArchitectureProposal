@@ -98,16 +98,38 @@ ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::NormalDistribut
 
 template <typename PointSource, typename PointTarget>
 void ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::dumpConfigurations() const {
-  ROS_INFO(">>> NDT_OMP Configurations");
-  ROS_INFO("openmp num threads: %d", num_threads_);
-  ROS_INFO("neighbor search method: %s", NeighborSearchMethodToString(search_method).c_str());
-  ROS_INFO("<<<");
+  std::cout << ">>>NDT_OMP_Configurations" << std::endl;
+  std::cout << "openmp_num_threads: " << num_threads_ << std::endl;
+  std::cout << "neighbor_search_method: " << NeighborSearchMethodToString(search_method) << std::endl;
+  std::cout << "<<<" << std::endl;
 }
 
 template <typename PointSource, typename PointTarget>
 void ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::dumpAlignInfo() const {
-  ROS_INFO(">>> Align (computeTransFormation) Info");
-  ROS_INFO("<<<");
+  std::cout << ">>>Align(computeTransformation)Info" << std::endl;
+  std::cout << "inputPoints: " << num_input_points_ << std::endl;
+  size_t total_ns = 0;
+  size_t total_cd = 0;
+  size_t total_ud = 0;
+  std::cout << "#neighborSearch: ";
+  for (int i = 0; i < num_threads_; i++) {
+    total_ns += num_neighborSearch_[i];
+    std::cout << num_neighborSearch_[i] << " ";
+  }
+  std::cout << "total: " << total_ns << std::endl;
+  std::cout << "#computePointDerivatives: ";
+  for (int i = 0; i < num_threads_; i++) {
+    total_cd += num_computePointDerivatives_[i];
+    std::cout << num_computePointDerivatives_[i] << " ";
+  }
+  std::cout << "total: " << total_cd << std::endl;
+  std::cout << "#updateDerivatives: ";
+  for (int i = 0; i < num_threads_; i++) {
+    total_ud += num_updateDerivatives_[i];
+    std::cout << num_updateDerivatives_[i] << " ";
+  }
+  std::cout << "total: " << total_ud << std::endl;
+  std::cout << "<<<" << std::endl;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,6 +299,17 @@ double ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::computeD
   std::vector<std::vector<TargetGridLeafConstPtr>> neighborhoods(num_threads_);
   std::vector<std::vector<float>> distancess(num_threads_);
 
+  // for evaluations
+  num_neighborSearch_.resize(num_threads_);
+  num_computePointDerivatives_.resize(num_threads_);
+  num_updateDerivatives_.resize(num_threads_);
+  for (int i = 0; i < num_threads_; i++) {
+    num_neighborSearch_[i] = 0;
+    num_computePointDerivatives_[i] = 0;
+    num_updateDerivatives_[i] = 0;
+  }
+
+  num_input_points_ = input_->points.size();
   // Update gradient and hessian for each point, line 17 in Algorithm 2 [Magnusson 2009]
 #pragma omp parallel for num_threads(num_threads_) schedule(guided, 8)
   for (int idx = 0; idx < input_->points.size(); idx++) {
@@ -353,10 +386,14 @@ double ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::computeD
     hessians[thread_n].noalias() += hessian_pt;
   }
 
+  // total_neighbor_points = 0; // for evaluation
+
   for (int i = 0; i < num_threads_; i++) {
     score += scores[i];
     score_gradient += score_gradients[i];
     hessian += hessians[i];
+    //num_neighbors_ = neighbors
+    //total_neighbor_points += neighbors[i];
   }
 
   return (score);
