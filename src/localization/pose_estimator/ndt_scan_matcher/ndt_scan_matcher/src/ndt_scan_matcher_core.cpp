@@ -512,6 +512,8 @@ void NDTScanMatcher::callbackSensorPoints(
   key_value_stdmap_["iteration_num"] = std::to_string(iteration_num);
   key_value_stdmap_["skipping_publish_num"] = std::to_string(skipping_publish_num);
 
+  ndt_ptr_->dumpConfigurations();
+  ndt_ptr_->dumpAlignInfo();
   std::cout << "------------------------------------------------" << std::endl;
   std::cout << "align_time: " << align_time << "ms" << std::endl;
   std::cout << "exe_time: " << exe_time << "ms" << std::endl;
