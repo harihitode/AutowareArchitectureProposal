@@ -352,6 +352,7 @@ double ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::computeD
         target_cells_.getNeighborhoodAtPoint1(x_trans_pt, neighborhood);
         break;
     }
+    num_neighborSearch_[thread_n]++;
 
     double score_pt = 0;
     Eigen::Matrix<double, 6, 1> score_gradient_pt = Eigen::Matrix<double, 6, 1>::Zero();
@@ -374,11 +375,13 @@ double ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::computeD
       // Compute derivative of transform function w.r.t. transform vector, J_E and H_E in Equations 6.18 and 6.20
       // [Magnusson 2009]
       computePointDerivatives(x, point_gradient_, point_hessian_);
+      num_computePointDerivatives_[thread_n]++;
       // Update score, gradient and hessian, lines 19-21 in Algorithm 2, according to Equations 6.10, 6.12 and 6.13,
       // respectively [Magnusson 2009]
       score_pt += updateDerivatives(
         score_gradient_pt, hessian_pt, point_gradient_, point_hessian_, x_trans, c_inv,
         compute_hessian);
+      num_updateDerivatives_[thread_n]++;
     }
 
     scores[thread_n] += score_pt;
@@ -392,8 +395,6 @@ double ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::computeD
     score += scores[i];
     score_gradient += score_gradients[i];
     hessian += hessians[i];
-    //num_neighbors_ = neighbors
-    //total_neighbor_points += neighbors[i];
   }
 
   return (score);
