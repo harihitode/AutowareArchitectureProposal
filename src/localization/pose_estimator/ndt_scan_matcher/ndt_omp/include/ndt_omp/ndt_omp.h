@@ -448,6 +448,7 @@ protected:
   std::vector<size_t> num_neighborSearch_;
   std::vector<size_t> num_computePointDerivatives_;
   std::vector<size_t> num_updateDerivatives_;
+  std::vector<std::vector<size_t>> num_neighborhoods_;
   size_t num_input_points_;
 
 public:
