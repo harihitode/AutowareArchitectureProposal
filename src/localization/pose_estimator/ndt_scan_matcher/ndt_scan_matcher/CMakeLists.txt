@@ -3,7 +3,7 @@ project(ndt_scan_matcher)
 
 add_compile_options(-std=c++14)
 
-set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_BUILD_TYPE "Debug")
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
