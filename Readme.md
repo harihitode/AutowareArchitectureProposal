@@ -6,7 +6,7 @@
 
 This is the source code of the feasibility study for Autoware architecture proposal.
 
-> **WARNING**: This source is solely for demonstrating an architecture proposal. It should not be used to drive cars. 
+> **WARNING**: This source is solely for demonstrating an architecture proposal. It should not be used to drive cars.
 
 Architecture overview is [here](/design/Overview.md).
 
@@ -17,12 +17,12 @@ Architecture overview is [here](/design/Overview.md).
 ### Hardware
  - x86 CPU (8 or more cores)
  - 16 GB or more of memory
- - Nvidia GPU (4GB or more of memory) : 
+ - Nvidia GPU (4GB or more of memory) :
 
 ### Software
  - Ubuntu 18.04
  - Nvidia driver
- 
+
 If cuda or tensorRT is already installed, it is recommended to remove it.
 
 ## Autoware setup
@@ -47,9 +47,12 @@ Please confirm their licenses before using them.
 
 3. Build the source
 ```
-catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release
+colcon build --cmake-args "-DCMAKE_BUILD_TYPE=Debug" --catkin-skip-building-tests
 ```
-Note that the computer need to be connected to Internet to download neural network weight files.
+Notes
+
+1. Your computer need to be connected to Internet to download neural network weight files.
+2. The ndt_omp does not run work -O0, -O1 optimization level. See its CMakeLists.txt for compile flag.
 
 # How to run
 
@@ -96,7 +99,7 @@ roslaunch autoware_launch planning_simulator.launch map_path:=[path]
 - sample map : © 2020 TierIV inc.
 
 ### Tutorial in detail
-See [here](https://github.com/tier4/AutowareArchitectureProposal/blob/master/docs/SimulationTutorial.md). for more information. 
+See [here](https://github.com/tier4/AutowareArchitectureProposal/blob/master/docs/SimulationTutorial.md). for more information.
 
 # References
 ## Videos
