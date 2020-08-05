@@ -121,7 +121,7 @@ void ndt_omp::NormalDistributionsTransform<PointSource, PointTarget>::dumpAlignI
     std::cout << num_neighborSearch_[i] << " ";
   }
   std::cout << "total: " << total_ns << std::endl;
-  std::cout << "#neighborhoods: " << std::endl;
+  std::cout << "#neighborGrids: ";
   for (int i = 0; i < num_threads_; i++) {
     for (int j = 0; j < num_neighborhoods_[i].size(); j++) {
       std::cout << num_neighborhoods_[i][j] << " ";
