@@ -67,8 +67,8 @@ Notes
 2. Download sample rosbag from [here](https://drive.google.com/open?id=1BFcNjIBUVKwupPByATYczv2X4qZtdAeD).
 3. Launch Autoware
 ```
-source devel/setup.bash
-roslaunch autoware_launch autoware.launch map_path:=[path] rosbag:=true
+source install/setup.bash
+roslaunch autoware_launch autoware.launch map_path:=[path] rosbag:=true ndt_threads:=[N]
 ```
 4. Play rosbag
 ```

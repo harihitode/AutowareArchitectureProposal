@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+  <arg name="ndt_threads"/>
   <!-- localization module -->
   <group ns="localization">
     <!-- util module -->
@@ -10,6 +11,7 @@
     <!-- pose_estimator module -->
     <group ns="pose_estimator">
       <include file="$(find localization_launch)/launch/pose_estimator/pose_estimator.launch">
+        <arg name="omp_num_threads" value="$(arg ndt_threads)"/>
       </include>
     </group>
     <!-- twist_estimator module -->

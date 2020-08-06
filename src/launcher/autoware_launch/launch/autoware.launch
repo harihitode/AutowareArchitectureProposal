@@ -7,6 +7,9 @@
   <arg name="rosbag" default="false" />
   <param name="/use_sim_time" value="$(arg rosbag)" />
 
+  <!-- NDT OMP Num Threads -->
+  <arg name="ndt_threads"/>
+
   <!-- Vehicle Setting -->
   <include file="$(find vehicle_launch)/launch/vehicle_description/vehicle_description.launch" />
 
@@ -26,6 +29,7 @@
 
   <!-- Localization -->
   <include file="$(find localization_launch)/launch/localization.launch">
+    <arg name="ndt_threads" value="$(arg ndt_threads)"/>
   </include>
 
   <!-- Perception -->
