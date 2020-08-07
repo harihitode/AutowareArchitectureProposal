@@ -3,8 +3,6 @@ project(initial_pose_button_panel)
 
 add_compile_options(-std=c++14)
 
-set(CMAKE_BUILD_TYPE "Release")
-
 find_package(catkin REQUIRED COMPONENTS
   rviz
   std_msgs
@@ -29,8 +27,7 @@ catkin_package(
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
-SET(CMAKE_CXX_FLAGS "-O2 -g -Wall -Wno-unused-result -DROS ${CMAKE_CXX_FLAGS}")
-
+SET(CMAKE_CXX_FLAGS "-Wall -Wno-unused-result -DROS ${CMAKE_CXX_FLAGS}")
 
 add_definitions(-DQT_NO_KEYWORDS -g)
 
@@ -41,6 +38,10 @@ set(SOURCE_FILES
 
 add_library(initial_pose_button_panel ${SOURCE_FILES} ${UIC_FILES})
 target_link_libraries(initial_pose_button_panel ${QT_LIBRARIES} ${catkin_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
+target_compile_options(${PROJECT_NAME} PUBLIC
+  $<$<CONFIG:Release>: -O3 -DNDEBUG>
+  $<$<CONFIG:Debug>:-O3 -g>
+)
 
 install(TARGETS
   ${PROJECT_NAME}
