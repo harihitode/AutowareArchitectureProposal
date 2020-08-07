@@ -382,7 +382,6 @@ void NDTScanMatcher::callbackSensorPoints(
     transform_probability < converged_param_transform_probability_) {
     is_converged = false;
     ++skipping_publish_num;
-    std::cout << "Not Converged" << std::endl;
   } else {
     skipping_publish_num = 0;
   }
@@ -514,12 +513,17 @@ void NDTScanMatcher::callbackSensorPoints(
 
   ndt_ptr_->dumpConfigurations();
   ndt_ptr_->dumpAlignInfo();
-  std::cout << "------------------------------------------------" << std::endl;
+  if (is_converged) {
+    std::cout << "Converged BEGIN" << std::endl;
+  } else {
+    std::cout << "Diverged BEGIN" << std::endl;
+  }
   std::cout << "align_time: " << align_time << " ms" << std::endl;
   std::cout << "exe_time: " << exe_time << " ms" << std::endl;
   std::cout << "trans_prob: " << transform_probability << std::endl;
   std::cout << "iter_num: " << iteration_num << std::endl;
   std::cout << "skipping_publish_num: " << skipping_publish_num << std::endl;
+  std::cout << "END" << std::endl;
 }
 
 geometry_msgs::PoseWithCovarianceStamped NDTScanMatcher::alignUsingMonteCarlo(
