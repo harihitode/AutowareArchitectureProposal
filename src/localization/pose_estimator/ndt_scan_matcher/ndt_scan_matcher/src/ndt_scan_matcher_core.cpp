@@ -180,6 +180,7 @@ void NDTScanMatcher::timerDiagnostic()
   }
 }
 
+// i.e. NDT Align Server
 bool NDTScanMatcher::serviceNDTAlign(
   autoware_localization_srvs::PoseWithCovarianceStamped::Request & req,
   autoware_localization_srvs::PoseWithCovarianceStamped::Response & res)
@@ -195,11 +196,13 @@ bool NDTScanMatcher::serviceNDTAlign(
 
   if (ndt_ptr_->getInputTarget() == nullptr) {
     // TODO wait for map pointcloud
+    std::cout << "Point cloud map is not loaded." << std::endl;
     return false;
   }
 
   if (ndt_ptr_->getInputSource() == nullptr) {
     // TODO wait for sensor pointcloud
+    std::cout << "Sensor point cloud is not received." << std::endl;
     return false;
   }
 
