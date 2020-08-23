@@ -36,7 +36,7 @@ Convert::Convert(ros::NodeHandle node, ros::NodeHandle private_nh)
   data_->setup(private_nh);
   const size_t num_lasers = data_->getNumLasers();
   switch (num_lasers) {
-  case 16: case 32: //case 128: // Only VLP16, VLP32C, and VLS128 are supported.
+  case 16: case 32: case 128: // Only VLP16, VLP32C, and VLS128 are supported.
     break;
   default:
     ROS_WARN("This node is only tested for VLP16, VLP32C, and VLS128. Use other models at your own risk.");
