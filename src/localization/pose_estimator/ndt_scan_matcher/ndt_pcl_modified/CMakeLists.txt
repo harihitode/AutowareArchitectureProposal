@@ -4,7 +4,7 @@ project(ndt_pcl_modified)
 add_compile_options(-std=c++14)
 
 find_package(catkin REQUIRED)
-find_package(PCL REQUIRED)
+find_package(PCL 1.8.1 EXACT REQUIRED NO_DEFAULT_PATH PATHS $ENV{DEBUG_PCL_PATH})
 
 catkin_package(
   INCLUDE_DIRS include

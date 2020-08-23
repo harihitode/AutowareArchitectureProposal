@@ -7,17 +7,17 @@ set(CMAKE_CXX_FLAGS "-std=c++11 -msse -msse2 -msse3 -msse4 -msse4.1 -msse4.2")
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  pcl_ros
+# pcl_ros # for my pcl
 )
 
-find_package(PCL 1.7 REQUIRED)
+find_package(PCL 1.8.1 EXACT REQUIRED NO_DEFAULT_PATH PATHS $ENV{DEBUG_PCL_PATH})
 include_directories(${PCL_INCLUDE_DIRS})
-link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
 message(STATUS "PCL_INCLUDE_DIRS:" ${PCL_INCLUDE_DIRS})
 message(STATUS "PCL_LIBRARY_DIRS:" ${PCL_LIBRARY_DIRS})
 message(STATUS "PCL_DEFINITIONS:" ${PCL_DEFINITIONS})
+message(STATUS "catkin_LIBRARIES:" ${catkin_LIBRARIES})
 
 find_package(OpenMP)
 if (OPENMP_FOUND)

@@ -15,8 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   visualization_msgs
   diagnostic_msgs
-  pcl_conversions
-  pcl_ros
+  # pcl_conversions # for my pcl
+  # pcl_ros # for my pcl
   dynamic_reconfigure
   ndt_pcl_modified
   ndt_omp
@@ -25,11 +25,16 @@ find_package(catkin REQUIRED COMPONENTS
   eigen_conversions
 )
 
+find_package(PCL 1.8.1 EXACT REQUIRED NO_DEFAULT_PATH PATHS $ENV{DEBUG_PCL_PATH})
+
 catkin_package(
   INCLUDE_DIRS include
 )
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(include ${catkin_INCLUDE_DIRS} ${PCL_INCLUDE_DIRS})
+
+message(STATUS "catkin_lib:${catkin_LIBRARIES}")
+message(STATUS "pcl_lib:${PCL_LIBRARIES}")
 
 add_executable(ndt_scan_matcher
   src/ndt_scan_matcher_node.cpp
@@ -41,7 +46,10 @@ add_dependencies(ndt_scan_matcher
   ${catkin_EXPORTED_TARGETS}
 )
 
-target_link_libraries(ndt_scan_matcher ${catkin_LIBRARIES})
+target_link_libraries(ndt_scan_matcher
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+)
 
 install(
   TARGETS

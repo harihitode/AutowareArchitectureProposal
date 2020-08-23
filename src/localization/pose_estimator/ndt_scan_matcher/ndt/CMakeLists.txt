@@ -7,7 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   ndt_pcl_modified
   ndt_omp
 )
-find_package(PCL REQUIRED)
+find_package(PCL 1.8.1 EXACT REQUIRED NO_DEFAULT_PATH PATHS $ENV{DEBUG_PCL_PATH})
 
 catkin_package(
   INCLUDE_DIRS include
