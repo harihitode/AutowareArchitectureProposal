@@ -194,20 +194,18 @@ bool PoseInitializer::callAlignService(
   autoware_localization_srvs::PoseWithCovarianceStamped srv;
   srv.request.pose_with_cov = input_pose_msg;
 
-  ROS_INFO("[pose_initializer] call NDT Align Server");
-  if (ndt_client_.call(srv)) {
-    ROS_INFO("[pose_initializer] called NDT Align Server");
-    // NOTE temporary cov
-    srv.response.pose_with_cov.pose.covariance[0] = 1.0;
-    srv.response.pose_with_cov.pose.covariance[1 * 6 + 1] = 1.0;
-    srv.response.pose_with_cov.pose.covariance[2 * 6 + 2] = 0.01;
-    srv.response.pose_with_cov.pose.covariance[3 * 6 + 3] = 0.01;
-    srv.response.pose_with_cov.pose.covariance[4 * 6 + 4] = 0.01;
-    srv.response.pose_with_cov.pose.covariance[5 * 6 + 5] = 0.2;
-    *output_pose_msg_ptr = srv.response.pose_with_cov;
-    return true;
-  } else {
-    ROS_ERROR("[pose_initializer] could not call NDT Align Server");
+  ROS_INFO("[pose_initializer] call NDTScanMatcher::serviceNDTAlign");
+  if (!ndt_client_.call(srv)) {
+    ROS_ERROR("[pose_initializer] could not call NDTScanMatcher::serviceNDTAlign");
     return false;
   }
+  // NOTE temporary cov
+  srv.response.pose_with_cov.pose.covariance[0] = 1.0;
+  srv.response.pose_with_cov.pose.covariance[1 * 6 + 1] = 1.0;
+  srv.response.pose_with_cov.pose.covariance[2 * 6 + 2] = 0.01;
+  srv.response.pose_with_cov.pose.covariance[3 * 6 + 3] = 0.01;
+  srv.response.pose_with_cov.pose.covariance[4 * 6 + 4] = 0.01;
+  srv.response.pose_with_cov.pose.covariance[5 * 6 + 5] = 0.2;
+  *output_pose_msg_ptr = srv.response.pose_with_cov;
+  return true;
 }
