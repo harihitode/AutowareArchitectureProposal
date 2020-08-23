@@ -33,6 +33,7 @@
   <arg name="node_name" value="ndt_scan_matcher" unless="$(arg use_anonymous_node_name)" doc="Not use anonymous option" />
   <arg name="node_name" value="$(anon ndt_scan_matcher)" if="$(arg use_anonymous_node_name)" doc="Use anonymous option" />
 
+  <env name="LD_LIBRARY_PATH" value="${DEBUG_PCL_PATH}/lib:/opt/ros/melodic/lib/:/home/daichi/AutowareArchitectureProposal/install/ndt_omp/lib/:${LD_LIBRARY_PATH}" />
   <node pkg="ndt_scan_matcher" type="ndt_scan_matcher" name="$(arg node_name)" output="log" launch-prefix="$(arg ndt_debug_tool)">
     <remap from="points_raw" to="$(arg input_sensor_points_topic)" />
     <param name="input_sensor_points_queue_size" value="$(arg input_sensor_points_queue_size)" />
