@@ -9,6 +9,8 @@
 
   <!-- NDT OMP Num Threads -->
   <arg name="ndt_threads"/>
+  <arg name="ndt_debug_tool" default=""/>
+  <arg name="ndt_neighborsearch_method" default="0"/>
 
   <!-- Vehicle Setting -->
   <include file="$(find vehicle_launch)/launch/vehicle_description/vehicle_description.launch" />
@@ -29,6 +31,8 @@
 
   <!-- Localization -->
   <include file="$(find localization_launch)/launch/localization.launch">
+    <arg name="ndt_neighborsearch_method" value="$(arg ndt_neighborsearch_method)"/>
+    <arg name="ndt_debug_tool" value="$(arg ndt_debug_tool)"/>
     <arg name="ndt_threads" value="$(arg ndt_threads)"/>
   </include>
 

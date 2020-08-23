@@ -70,6 +70,11 @@ Notes
 source install/setup.bash
 roslaunch autoware_launch autoware.launch map_path:=[path] rosbag:=true ndt_threads:=[N]
 ```
+or as blow to use debug tool for ndt_scan_matcher
+```
+source install/setup.bash
+roslaunch autoware_launch autoware.launch map_path:=[path] rosbag:=true ndt_threads:=[N] ndt_debug_tool="perf record -g -e cache-misses -o ndt.cache-miss"
+```
 4. Play rosbag
 ```
 rosbag play --clock [rosbag file] -r 0.2
