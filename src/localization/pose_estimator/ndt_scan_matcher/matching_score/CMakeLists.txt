@@ -3,9 +3,13 @@ project(matching_score)
 
 add_compile_options(-std=c++14)
 
-find_package(catkin REQUIRED)
-find_package(PCL 1.8.1 EXACT REQUIRED NO_DEFAULT_PATH PATHS $ENV{DEBUG_PCL_PATH})
+if (DEFINED $ENV{DEBUG_PCL_PATH})
+  find_package(PCL 1.8.1 EXACT REQUIRED NO_DEFAULT_PATH PATHS $ENV{DEBUG_PCL_PATH})
+else()
+  find_package(PCL 1.8.1 REQUIRED)
+endif()
 
+find_package(catkin REQUIRED)
 catkin_package()
 
 include_directories(include ${PCL_INCLUDE_DIRS})
