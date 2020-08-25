@@ -514,19 +514,25 @@ void NDTScanMatcher::callbackSensorPoints(
   key_value_stdmap_["iteration_num"] = std::to_string(iteration_num);
   key_value_stdmap_["skipping_publish_num"] = std::to_string(skipping_publish_num);
 
-  ndt_ptr_->dumpConfigurations();
-  ndt_ptr_->dumpAlignInfo();
-  if (is_converged) {
-    std::cout << "Converged BEGIN" << std::endl;
-  } else {
-    std::cout << "Diverged BEGIN" << std::endl;
+  bool dump_debug_info = false;
+  if (dump_debug_info) {
+    ndt_ptr_->dumpConfigurations();
+    ndt_ptr_->dumpAlignInfo();
+    std::string flag;
+    if (is_converged) {
+      flag = "[C]";
+      std::cout << "Converged BEGIN" << std::endl;
+    } else {
+      flag = "[D]";
+      std::cout << "Diverged BEGIN" << std::endl;
+    }
+    std::cout << flag << "align_time: " << align_time << " ms" << std::endl;
+    std::cout << flag << "exe_time: " << exe_time << " ms" << std::endl;
+    std::cout << flag << "trans_prob: " << transform_probability << std::endl;
+    std::cout << flag << "iter_num: " << iteration_num << std::endl;
+    std::cout << flag << "skipping_publish_num: " << skipping_publish_num << std::endl;
+    std::cout << "END" << std::endl;
   }
-  std::cout << "align_time: " << align_time << " ms" << std::endl;
-  std::cout << "exe_time: " << exe_time << " ms" << std::endl;
-  std::cout << "trans_prob: " << transform_probability << std::endl;
-  std::cout << "iter_num: " << iteration_num << std::endl;
-  std::cout << "skipping_publish_num: " << skipping_publish_num << std::endl;
-  std::cout << "END" << std::endl;
 }
 
 geometry_msgs::PoseWithCovarianceStamped NDTScanMatcher::alignUsingMonteCarlo(
