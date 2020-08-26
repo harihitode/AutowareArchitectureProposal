@@ -4,7 +4,7 @@
 
 # What's this
 
-This is the source code of the feasibility study for Autoware architecture proposal.
+Profiling repository of "ndt_scan_matcher", one of the most heavy node on Autoware architecture proposal.
 
 > **WARNING**: This source is solely for demonstrating an architecture proposal. It should not be used to drive cars.
 
@@ -54,6 +54,8 @@ Notes
 1. Your computer need to be connected to Internet to download neural network weight files.
 2. The ndt_omp does not run work -O0, -O1 optimization level. See its CMakeLists.txt for compile flag.
 
+see buildscript.sh for daily use.
+
 # How to run
 
 ## Simulator
@@ -75,6 +77,9 @@ or as blow to use debug tool for ndt_scan_matcher
 source install/setup.bash
 roslaunch autoware_launch autoware.launch map_path:=[path] rosbag:=true ndt_threads:=[N] ndt_debug_tool="perf record -g -e cache-misses -o ndt.cache-miss"
 ```
+
+see launchscript.sh
+
 4. Play rosbag
 ```
 rosbag play --clock [rosbag file] -r 0.2
