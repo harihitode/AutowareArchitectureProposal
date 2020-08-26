@@ -1,10 +1,8 @@
-#!/bin/bash
-source /opt/ros/melodic/setup.bash
-source install/setup.bash
+#!/bin/sh
+. /opt/ros/melodic/setup.sh
+. install/setup.sh
+
 roslaunch autoware_launch autoware.launch map_path:=${HOME}/AutowareArchitectureProposal/ rosbag:=true ndt_threads:=8 ndt_debug_tool:="valgrind --tool=massif" ndt_neighborsearch_method:=3
-
-
-
 
 # example of ndt_debug_tool
 # In my laptop, I had to set ndt_threads:=8 for reasonal profiling.
