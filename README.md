@@ -1,6 +1,6 @@
 # Let's Do Profiling on NDT Scan Matcher
 
-Profiling repository of "ndt_scan_matcher", one of the heaviest node on (Autoware architecture proposal)[https://github.com/tier4/AutowareArchitectureProposal].
+Profiling repository of "ndt_scan_matcher", one of the heaviest node on [Autoware architecture proposal](https://github.com/tier4/AutowareArchitectureProposal).
 
 > **WARNING**: This source is solely for demonstrating an architecture proposal. It should not be used to drive cars.
 
