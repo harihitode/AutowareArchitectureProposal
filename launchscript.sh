@@ -23,7 +23,7 @@ AW_RVIZ=true
 # export ROS_IP=192.168.10.10
 # export ROS_MASTER_URI=http://192.168.10.10:11311
 
-roslaunch autoware_launch logging_simulator.launch vehicle_model:=lexus sensor_model:=aip_xx1 map_path:=${MAP_PATH} rosbag:=true ndt_threads:=${NDT_THREADS} ndt_neighborsearch_method:=${NDT_NSMETHOD} ndt_debug_tool:="${NDT_DEBUG}" sensing:=${AW_SENSING} localization:=${AW_LOCALIZATION} perception:=${AW_PERCEPTION} planning:=${AW_PLANNING} control:=${AW_CONTCOL} rviz:="${AW_RVIZ}" pointcloud_map_file:=${PCD_FILE}
+roslaunch autoware_launch logging_simulator.launch vehicle_model:=lexus sensor_model:=aip_xx1 map_path:=${MAP_PATH} rosbag:=true ndt_threads:=${NDT_THREADS} ndt_neighborsearch_method:=${NDT_NSMETHOD} ndt_debug_tool:="${NDT_DEBUG}" sensing:=${AW_SENSING} localization:=${AW_LOCALIZATION} perception:=${AW_PERCEPTION} planning:=${AW_PLANNING} control:=${AW_CONTCOL} rviz:="${AW_RVIZ}" pointcloud_map_file:=${PCD_FILE} ndt_dump_stats:=false
 # running detection
 # perception_mode:="camera_lidar_fusion" camera_number:="2"
 
