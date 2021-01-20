@@ -2,9 +2,9 @@
 . /opt/ros/melodic/setup.sh
 . install/setup.sh
 
-MAP_PATH=${HOME}/Downloads
+MAP_PATH=${HOME}/sample_map
 PCD_FILE=pointcloud_map.pcd
-NDT_THREADS=1
+NDT_THREADS=4
 # ndt_neighborsearch_method 0:KDTREE, 1:DIRECT26, 2:DIRECT7, 3:DIRECT1
 NDT_NSMETHOD=0
 NDT_DEBUG=""
