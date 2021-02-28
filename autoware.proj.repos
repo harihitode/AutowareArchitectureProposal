@@ -7,12 +7,12 @@ repositories:
   autoware/launcher:
     type: git
     url: git@github.com:harihitode/autoware_launcher.iv.universe.git
-    version: ndt_analyze
+    version: hachinoji
   # description
   description/sensor/sensor_description:
     type: git
-    url: git@github.com:tier4/sensor_description.iv.universe.git
-    version: master
+    url: git@github.com:harihitode/sensor_description.iv.universe.git
+    version: hachinoji
   description/vehicle/lexus_description:
     type: git
     url: git@github.com:tier4/lexus_description.iv.universe.git
