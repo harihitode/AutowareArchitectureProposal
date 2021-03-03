@@ -2,8 +2,8 @@
 . /opt/ros/melodic/setup.sh
 
 if [ $# -eq 0 ]; then
-#    PACKAGES="ndt_scan_matcher ndt_omp"
-    PACKAGES="autoware_launch sensing_launch vehicle_launch hachinoji_description"
+#    PACKAGES="ndt_scan_matcher ndt_omp localization_launch"
+    PACKAGES="sensing_launch vehicle_launch hachinoji_description localization_launch"
     BUILD_TYPE=Release
     echo "build ${PACKAGES}"
     colcon build --catkin-skip-building-tests --cmake-clean-cache --cmake-args "-DCMAKE_BUILD_TYPE=${BUILD_TYPE}" --packages-select ${PACKAGES}
