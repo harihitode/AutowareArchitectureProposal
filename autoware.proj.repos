@@ -2,12 +2,12 @@ repositories:
   # autoware
   autoware/AutowareArchitectureProposal.iv:
     type: git
-    url: https://github.com/tier4/AutowareArchitectureProposal.iv.git
-    version: ros2
+    url: https://github.com/harihitode/AutowareArchitectureProposal.iv.git
+    version: ros2-e2e-latency
   autoware/launcher:
     type: git
-    url: https://github.com/tier4/autoware_launcher.iv.universe.git
-    version: ros2
+    url: https://github.com/harihitode/autoware_launcher.iv.universe.git
+    version: ros2-e2e-latency
   autoware/individual_params:
     type: git
     url: https://github.com/tier4/autoware_individual_params.git
@@ -93,8 +93,8 @@ repositories:
     version: master
   vendor/velodyne_vls:
     type: git
-    url: https://github.com/tier4/velodyne_vls.git
-    version: ros2
+    url: https://github.com/harihitode/velodyne_vls.git
+    version: ros2-e2e-latency
   vendor/rqt_runtime_monitor:
     type: git
     url: https://github.com/tier4/rqt_runtime_monitor.git
