@@ -83,19 +83,16 @@ The following are the samples.
 
 ### Quick Start
 
-#### Rosbag
-
-\* Currently this feature is not available for ROS 2.
+#### Rosbag (sensing - localization only, current)
 
 1. Download sample map from [here](https://drive.google.com/open?id=1ovrJcFS5CZ2H51D8xVWNtEvj_oiXW-zk).
-
-2. Download sample rosbag from [here](https://drive.google.com/open?id=1BFcNjIBUVKwupPByATYczv2X4qZtdAeD).
+2. Download sample rosbag from [here]().
 3. Launch Autoware
 
 ```sh
 cd AutowareArchitectureProposal
 source install/setup.bash
-roslaunch autoware_launch logging_simulator.launch map_path:=[path] vehicle_model:=lexus sensor_model:=aip_xx1 rosbag:=true
+ros2 launch autoware_launch logging_simulator.launch.xml map_path:=[path] vehicle_model:=lexus sensor_model:=aip_xx1 perception:=false planning:=false control:=false
 ```
 
 \* Absolute path is required for map_path.
@@ -103,7 +100,7 @@ roslaunch autoware_launch logging_simulator.launch map_path:=[path] vehicle_mode
 4. Play rosbag
 
 ```sh
-rosbag play --clock [rosbag file] -r 0.2
+RMW_IMPLEMENTATION=rmw_fastrtps_cpp ros2 bag play [rosbag directory]
 ```
 
 ##### Note
