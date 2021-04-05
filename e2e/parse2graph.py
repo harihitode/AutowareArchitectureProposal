@@ -19,20 +19,20 @@ sub_file_names = [
 ]
 
 log_node_name_2_idx = {
-    "/sensing/lidar/top/velodyne_nodelet_manager_cloud start": 0,
-    "/sensing/lidar/top/velodyne_nodelet_manager_cloud end" : 1,
-    "/sensing/lidar/top/velodyne_nodelet_manager_crop_box_filter_self start": 2,
-    "/sensing/lidar/top/velodyne_nodelet_manager_crop_box_filter_self end": 3,
-    "/sensing/lidar/top/velodyne_nodelet_manager_crop_box_filter_mirror start": 4,
-    "/sensing/lidar/top/velodyne_nodelet_manager_crop_box_filter_mirror end": 5,
-    "/sensing/lidar/top/velodyne_nodelet_manager_fix_distortion start": 6,
-    "/sensing/lidar/top/velodyne_nodelet_manager_fix_distortion end": 7,
-    "/localization/util/crop_box_filter_mesurement_range start": 8,
-    "/localization/util/crop_box_filter_mesurement_range end": 9,
-    "/localization/util/voxel_grid_filter start": 10,
-    "/localization/util/voxel_grid_filter end": 11,
-    "/localization/pose_estimator/ndt_scan_matcher start": 12,
-    "/localization/pose_estimator/ndt_scan_matcher end": 13,
+    "/sensing/lidar/top/velodyne_convert start": 0,
+    "/sensing/lidar/top/velodyne_convert end" : 1,
+    "crop_box_filter_self start": 2,
+    "crop_box_filter_self end": 3,
+    "crop_box_filter_mirror start": 4,
+    "crop_box_filter_mirror end": 5,
+    "/sensing/lidar/top/velodyne_fix_distortion start": 6,
+    "/sensing/lidar/top/velodyne_fix_distortion end": 7,
+    "crop_box_filter_measurement_range start": 8,
+    "crop_box_filter_measurement_range end": 9,
+    "voxel_grid_filter start": 10,
+    "voxel_grid_filter end": 11,
+    "ndt_scan_matcher start": 12,
+    "ndt_scan_matcher end": 13,
 }
 
 log_graph = [
@@ -53,11 +53,11 @@ log_graph = [
 ]
 
 viz_node_names = [
-    "velodyne_cloud", # node-0
-    "velodyne_crop_box_filter_self", # node-1
-    "velodyne_crop_box_filter_mirror", # node-2
-    "velodyne_fix_distortion", # node-3
-    "crop_box_filter_mesurement_range", # node-4
+    "top_lidar_convert", # node-0
+    "top_lidar_self_crop", # node-1
+    "top_lidar_mirror_crop", # node-2
+    "top_lidar_fix_distortion", # node-3
+    "top_lidar_crop_mesurement_range", # node-4
     "voxel_grid_filter", # node-5
     "ndt_scan_matcher", # node-6
 ]
@@ -108,7 +108,7 @@ def parse_files():
                 if len(ret) != 4:
                     continue
                 name, part, stamp, realtime = ret
-                log_node_name = name + "." + part
+                log_node_name = name + " " + part
                 if not log_node_name in log_node_name_2_idx:
                     continue
                 idx = log_node_name_2_idx[log_node_name]
@@ -122,12 +122,12 @@ def parse_sub_files():
                 if len(ret) != 3:
                     continue
                 name, start_stamp, end_stamp = ret
-                if not (name + ".start") in log_node_name_2_idx:
+                if not (name + " start") in log_node_name_2_idx:
                     continue
-                if not (name + ".end") in log_node_name_2_idx:
+                if not (name + " end") in log_node_name_2_idx:
                     continue
-                sub_data_nodes[log_node_name_2_idx[name + ".start"]][int(start_stamp)] = int(end_stamp)
-                sub_data_nodes[log_node_name_2_idx[name + ".end"]][int(end_stamp)] = int(start_stamp)
+                sub_data_nodes[log_node_name_2_idx[name + " start"]][int(start_stamp)] = int(end_stamp)
+                sub_data_nodes[log_node_name_2_idx[name + " end"]][int(end_stamp)] = int(start_stamp)
 
 def calc_latency(start_node, start_stamp):
     viz_node_latencies = [-1 for _ in range(len(viz_node_names))]
@@ -144,7 +144,6 @@ def calc_latency(start_node, start_stamp):
         for next_node in log_graph[node]:
             if visited[next_node]:
                 continue
-
             is_edge, viz_idx = section2id[(min(node, next_node), max(node, next_node))]
             before_stamp = stamp
 
@@ -152,7 +151,6 @@ def calc_latency(start_node, start_stamp):
                 if not stamp in sub_data_nodes[node]:
                     continue
                 stamp = sub_data_nodes[node][stamp]
-
             if not stamp in data_nodes[next_node]:
                 continue
 
@@ -193,12 +191,18 @@ def calc_latency_ave():
         sm = 0
         for val in viz_nodes_latencies[i]:
             sm += val
-        nodes_latency_ave[i] = sm / len(viz_nodes_latencies[i])
+        if (len(viz_nodes_latencies[i]) == 0):
+            nodes_latency_ave[i] = -1.0
+        else:
+            nodes_latency_ave[i] = sm / len(viz_nodes_latencies[i])
     for i in range(len(edges_latency_ave)):
         sm = 0
         for val in viz_edges_latencies[i]:
             sm += val
-        edges_latency_ave[i] = sm / len(viz_edges_latencies[i])
+        if (len(viz_edges_latencies[i]) == 0):
+            edges_latency_ave[i] = -1.0
+        else:
+            edges_latency_ave[i] = sm / len(viz_edges_latencies[i])
 
 def calc_latency_tail(rate):
     for i in range(len(viz_nodes_latencies)):
@@ -209,7 +213,10 @@ def calc_latency_tail(rate):
         sm = 0
         for j in range(n - tail_num, n):
             sm += samples[j]
-        nodes_latency_tail[i] = sm / tail_num
+        if (tail_num > 0):
+            nodes_latency_tail[i] = sm / tail_num
+        else:
+            nodes_latency_tail[i] = -1.0
     for i in range(len(viz_edges_latencies)):
         n = len(viz_edges_latencies[i])
         tail_num = math.ceil(n * rate)
@@ -218,7 +225,10 @@ def calc_latency_tail(rate):
         sm = 0
         for j in range(n - tail_num, n):
             sm += samples[j]
-        edges_latency_tail[i] = sm / tail_num
+        if (tail_num > 0):
+            edges_latency_tail[i] = sm / tail_num
+        else:
+            edges_latency_tail[i] = -1.0
 
 def visualize_graph():
     edge_labels = {}
@@ -258,6 +268,7 @@ def main():
 
     parse_files()
     parse_sub_files()
+
     calc_latencies()
     calc_latency_ave()
     calc_latency_tail(tail_rate)
